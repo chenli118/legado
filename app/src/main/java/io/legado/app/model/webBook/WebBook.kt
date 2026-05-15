@@ -1,6 +1,7 @@
 package io.legado.app.model.webBook
 
 import io.legado.app.constant.AppLog
+import io.legado.app.constant.BookSourceType
 import io.legado.app.data.entities.Book
 import io.legado.app.data.entities.BookChapter
 import io.legado.app.data.entities.BookSource
@@ -156,6 +157,12 @@ object WebBook {
     ): Book {
         book.removeAllBookType()
         book.addType(bookSource.getBookType())
+        if (bookSource.bookSourceType == BookSourceType.file) {
+            if (book.downloadUrls.isNullOrEmpty()) {
+                book.downloadUrls = listOf(book.bookUrl)
+            }
+            return book
+        }
         if (!book.infoHtml.isNullOrEmpty()) {
             BookInfo.analyzeBookInfo(
                 bookSource = bookSource,
@@ -229,6 +236,9 @@ object WebBook {
     ): Result<List<BookChapter>> {
         book.removeAllBookType()
         book.addType(bookSource.getBookType())
+        if (bookSource.bookSourceType == BookSourceType.file) {
+            return Result.success(emptyList())
+        }
         return kotlin.runCatching {
             if (runPerJs) {
                 runPreUpdateJs(bookSource, book).getOrThrow()

@@ -1,0 +1,41 @@
+[
+  {
+    "bookSourceComment": "麦费品Calibre-web OPDS书源(JS版)",
+    "bookSourceGroup": "Calibre-web",
+    "bookSourceName": "麦费品书库",
+    "bookSourceType": 3,
+    "bookSourceUrl": "http://192.168.2.240:8083",
+    "customOrder": 0,
+    "enabled": true,
+    "enabledExplore": true,
+    "exploreUrl": "新书::http://192.168.2.240:8083/opds/new",
+    "header": "{\"Authorization\": \"Basic dTI6VXNlci4yMDI2\"}",
+    "loginUrl": "",
+    "respondTime": 180000,
+    "ruleBookInfo": {
+      "author": "@js:var m = result.match(/<author>[\\s\\S]*?<name>([^<]+)<\\/name>/); m ? m[1] : ''",
+      "coverUrl": "@js:var m = result.match(/href=\"([^\"]+)\"[^>]*rel=\"http:\\/\\/opds-spec.org\\/image\"/); m ? m[1] : ''",
+      "downloadUrls": "@js:baseUrl",
+      "intro": "@js:var m = result.match(/<content[^>]*>[\\s\\S]*?<p>([^<]+)<\\/p>/); m ? m[1] : ''",
+      "name": "@js:var m = result.match(/<title>([^<]+)<\\/title>/); m ? m[1] : ''"
+    },
+    "ruleContent": {
+      "content": ""
+    },
+    "ruleExplore": {
+      "author": "@js:var entries = result.match(/<entry>[\\s\\S]*?<\\/entry>/g) || [];\nvar books = entries.map(function(entry) {\n  var m;\n  var title = (m = entry.match(/<title>([^<]+)<\\/title>/)) ? m[1] : '';\n  var author = (m = entry.match(/<author>[\\s\\S]*?<name>([^<]+)<\\/name>/)) ? m[1] : '';\n  var cover = (m = entry.match(/href=\"([^\"]+)\"[^>]*rel=\"http:\\/\\/opds-spec.org\\/image\"/)) ? m[1] : '';\n  var bookUrl = (m = entry.match(/rel=\"http:\\/\\/opds-spec.org\\/acquisition\"[^>]*href=\"([^\"]+)\"/)) ? m[1] : '';\n  var intro = (m = entry.match(/<content[^>]*>[\\s\\S]*?<p>([^<]+)<\\/p>/)) ? m[1] : '';\n  return {name: title, author: author, bookUrl: bookUrl, coverUrl: cover, intro: intro};\n});\nJSON.stringify(books)",
+      "bookList": "@js:result"
+    },
+    "ruleSearch": {
+      "author": "@js:var entries = result.match(/<entry>[\\s\\S]*?<\\/entry>/g) || [];\nvar books = entries.map(function(entry) {\n  var m;\n  var title = (m = entry.match(/<title>([^<]+)<\\/title>/)) ? m[1] : '';\n  var author = (m = entry.match(/<author>[\\s\\S]*?<name>([^<]+)<\\/name>/)) ? m[1] : '';\n  var cover = (m = entry.match(/href=\"([^\"]+)\"[^>]*rel=\"http:\\/\\/opds-spec.org\\/image\"/)) ? m[1] : '';\n  var bookUrl = (m = entry.match(/rel=\"http:\\/\\/opds-spec.org\\/acquisition\"[^>]*href=\"([^\"]+)\"/)) ? m[1] : '';\n  var intro = (m = entry.match(/<content[^>]*>[\\s\\S]*?<p>([^<]+)<\\/p>/)) ? m[1] : '';\n  return {name: title, author: author, bookUrl: bookUrl, coverUrl: cover, intro: intro};\n});\nJSON.stringify(books)",
+      "bookList": "@js:result"
+    },
+    "ruleToc": {
+      "chapterList": "",
+      "chapterName": "",
+      "chapterUrl": ""
+    },
+    "searchUrl": "http://192.168.2.240:8083/opds/search?query={{key}}",
+    "weight": 0
+  }
+]
